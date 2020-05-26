@@ -1,16 +1,32 @@
 <?php 
   require '../php/conexion2.php';
-  require '../php/cTienda.php';
+  require '../php/eTienda.php';
   $sql = "SELECT * FROM departamento";
   $statement = $conn->prepare($sql);
   $statement->execute();
   $departamentos = $statement->fetchAll(PDO::FETCH_OBJ);
+
+      if(isset($_GET['editar'])){
+      $id_editar = $_GET['editar'];
+
+      $sql = "SELECT * FROM tienda WHERE id_tienda = '$id_editar'";
+      $statement = $conn->prepare($sql);
+      $statement->execute();
+      $tiendas = $statement->fetchAll(PDO::FETCH_OBJ);
+  }
+  foreach($tiendas as $tienda):
+    $id = $tienda->id_tienda;
+    $nombre = $tienda->Nombre_tienda;
+    $direccion = $tienda->Direccion;
+    $telefono = $tienda->Telefono;
+    $cap = $tienda->Capacidad;
+    endforeach;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Tienda</title>
+    <title>Editar Tienda</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/main.css">
 </head>
@@ -21,7 +37,7 @@
 </header>
  <!-- Formulario para registro de nuevo Proveedor -->
       <form method="post" name="crearVideojuego" enctype="multipart/form-data">
-        <h2> Nueva Tienda</h2>  
+        <h2> Editar Tienda</h2>  
         <div class="form-group">
             <div class="center">
                 <label for="campoNombre">Nombre Tienda</label>
@@ -32,7 +48,7 @@
                   class="form-control" 
                   id="proveedor" 
                   name="nombre_tienda" 
-                  placeholder="Tienda Oakland" 
+                  value="<?php echo $nombre; ?>" 
                   required
                 >
             </div>
@@ -47,7 +63,7 @@
                   class="form-control" 
                   id="proveedor" 
                   name="direccion_tienda" 
-                  placeholder="Ejem: 10ma calle, Guatemala" 
+                  value="<?php echo $direccion; ?>"
                   required
                 >
             </div>
@@ -62,6 +78,7 @@
                   class="form-control" 
                   id="proveedor" 
                   name="numero_tienda" 
+                  value="<?php echo $telefono; ?>"
                   required
                 >
             </div>
@@ -76,6 +93,7 @@
                   class="form-control" 
                   id="proveedor" 
                   name="capacidad" 
+                  value="<?php echo $cap; ?>"
                   required
                 >
             </div>
@@ -94,14 +112,23 @@
             </select>
             </div>
         </div>
+        <div class="form-group ocultar">
+            <input 
+              type="text" 
+              class="form-control ocultar" 
+              id="telefonoCliente" 
+              name="id"
+              value="<?php echo $id; ?>"
+            >
+          </div>
         <div class="form-group">
             <div class="center">
           <!-- Boton para enviar los datos a la base de datos -->
-              <a onclick="return confirm('Esta seguro de registrar la Tienda')">
+              <a onclick="return confirm('Esta seguro de Editar la Tienda')">
                 <button type="submit" 
                 value="Registrar Proveedor" 
                 name ="send" 
-                class="btn btn-info">Registrar Tienda </button>
+                class="btn btn-info">Editar Tienda </button>
               </a>
             </div>
 

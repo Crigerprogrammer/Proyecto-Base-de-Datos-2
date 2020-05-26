@@ -1,5 +1,19 @@
-<?php require '../php/cDepartamento.php'; ?>
-<!DOCTYPE html>
+<?php 
+  require '../php/conexion2.php';
+  require '../php/eDepartamento.php';
+    if(isset($_GET['editar'])){
+      $id_editar = $_GET['editar'];
+
+      $sql = "SELECT * FROM departamento WHERE id_departamento = '$id_editar'";
+      $statement = $conn->prepare($sql);
+      $statement->execute();
+      $departamentos = $statement->fetchAll(PDO::FETCH_OBJ);
+  }
+  foreach($departamentos as $departamento):
+    $id = $departamento->id_departamento;
+    $nombre = $departamento->Departamento;
+    endforeach;
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +28,7 @@
 </header>
       <!-- Formulario para registro de nuevo Proveedor -->
       <form method="post" name="crearVideojuego" enctype="multipart/form-data">
-        <h2> Nuevo Departamento</h2>  
+        <h2> Editar Departamento</h2>  
         <div class="form-group">
             <div class="center">
                 <label for="campoNombre">Nombre Departamento</label>
@@ -25,20 +39,28 @@
                   class="form-control" 
                   id="proveedor" 
                   name="departamento" 
-                  placeholder="Guatemala" 
-                  required
+                  value="<?php echo $nombre; ?>"
                 >
             </div>
+            <div class="form-group ocultar">
+            <input 
+              type="text" 
+              class="form-control ocultar" 
+              id="telefonoCliente" 
+              name="id"
+              value="<?php echo $id; ?>"
+            >
+          </div>
         </div>
  
         <div class="form-group">
             <div class="center">
           <!-- Boton para enviar los datos a la base de datos -->
-              <a onclick="return confirm('Esta seguro de registrar el Departamento')">
+              <a onclick="return confirm('Esta seguro de Editar el Departamento')">
                 <button type="submit" 
                 value="Registrar Proveedor" 
                 name ="send" 
-                class="btn btn-info">Registrar Departamento </button>
+                class="btn btn-info">Editar Departamento </button>
               </a>
             </div>
         </div>
