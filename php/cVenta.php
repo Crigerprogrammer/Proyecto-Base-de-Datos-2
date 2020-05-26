@@ -17,7 +17,7 @@ if(isset($_POST['fecha'])){
         echo $mensaje;
         echo '</div>';
     } else{
-    	echo "Error";
+        echo "Error";
     }
 }
 
